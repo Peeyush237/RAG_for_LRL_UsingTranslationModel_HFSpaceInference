@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: linguabridge-api
+    runtime: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: GROQ_API_KEY
+        sync: false
+      - key: HF_SPACES_URL
+        sync: false
+      - key: CORS_ORIGINS
+        value: '["https://your-app.vercel.app"]'
