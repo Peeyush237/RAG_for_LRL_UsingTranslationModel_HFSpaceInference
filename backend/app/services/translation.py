@@ -39,9 +39,8 @@ async def _call_hf_spaces(
         "data": [text],
     }
 
-    # Try the Gradio REST endpoint
-    # Different Gradio versions use different endpoint formats
-    gradio_url = f"{hf_spaces_url.rstrip('/')}/call{api_name}"
+    # HF Spaces with Gradio 6.x requires /gradio_api/ prefix
+    gradio_url = f"{hf_spaces_url.rstrip('/')}/gradio_api/call{api_name}"
 
     async with httpx.AsyncClient(timeout=HF_TIMEOUT) as client:
         try:
@@ -55,7 +54,7 @@ async def _call_hf_spaces(
 
             if event_id:
                 # Step 2: Get the result using SSE
-                result_url = f"{hf_spaces_url.rstrip('/')}/call{api_name}/{event_id}"
+                result_url = f"{hf_spaces_url.rstrip('/')}/gradio_api/call{api_name}/{event_id}"
                 result_response = await client.get(result_url)
                 result_response.raise_for_status()
 
