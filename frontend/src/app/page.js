@@ -90,6 +90,43 @@ export default function HomePage() {
 
             <hr className="rule" style={{ maxWidth: '80px', margin: '0 auto var(--s8)' }} />
 
+            {/* ── Architecture & Tech Stack ────────── */}
+            <section style={{ padding: '0 0 var(--s8)' }}>
+                <div className="container">
+                    <h2 style={{ textAlign: 'center', marginBottom: 'var(--s7)' }}>Under the Hood</h2>
+                    <div className="columns-3" style={{ textAlign: 'left', gap: 'var(--s6)' }}>
+                        <div>
+                            <p className="tag" style={{ marginBottom: 'var(--s3)' }}>Vercel Frontend</p>
+                            <h3 style={{ fontSize: '1.2rem', marginBottom: 'var(--s2)' }}>Next.js UI & Edge</h3>
+                            <p style={{ fontSize: '0.9rem', color: 'var(--stone)', lineHeight: 1.6 }}>
+                                Modern React application providing a responsive chat interface.
+                                Uses server-side API proxying to seamlessly handle CORS and secure
+                                backend communication.
+                            </p>
+                        </div>
+                        <div>
+                            <p className="tag tag-gold" style={{ marginBottom: 'var(--s3)' }}>Render Backend</p>
+                            <h3 style={{ fontSize: '1.2rem', marginBottom: 'var(--s2)' }}>FastAPI RAG Engine</h3>
+                            <p style={{ fontSize: '0.9rem', color: 'var(--stone)', lineHeight: 1.6 }}>
+                                Fast orchestrator running CPU-optimized PyTorch. Powers the 4-stage
+                                semantic search pipeline using FAISS (dense), BM25 (sparse), and
+                                CrossEncoder reranking.
+                            </p>
+                        </div>
+                        <div>
+                            <p className="tag" style={{ marginBottom: 'var(--s3)' }}>HuggingFace Space</p>
+                            <h3 style={{ fontSize: '1.2rem', marginBottom: 'var(--s2)' }}>IndicTrans2 API</h3>
+                            <p style={{ fontSize: '0.9rem', color: 'var(--stone)', lineHeight: 1.6 }}>
+                                Hosts the state-of-the-art multilingual translation model natively
+                                fine-tuned with our LoRA adapters, exposed via Gradio 6.x asynchronous API.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <hr className="rule" style={{ maxWidth: '80px', margin: '0 auto var(--s8)' }} />
+
             {/* ── Two approaches ───────────────────── */}
             <section style={{ padding: '0 0 var(--s8)' }}>
                 <div className="container">

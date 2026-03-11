@@ -139,6 +139,18 @@ export default function ChatPage() {
                                 </span>
                             )}
                         </div>
+
+                        {loading && (
+                            <div style={{
+                                marginTop: 'var(--s3)',
+                                fontSize: '0.85rem',
+                                color: 'var(--stone)',
+                                fontStyle: 'italic',
+                                animation: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                            }}>
+                                ⏳ Inference in progress. Cross-lingual retrieval and translation may take 30-60 seconds on free-tier APIs. Please be patient...
+                            </div>
+                        )}
                     </div>
 
                     {/* ── Results ────────────────────── */}
