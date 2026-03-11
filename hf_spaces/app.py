@@ -26,8 +26,8 @@ from peft import PeftModel
 #   EN_TO_OR_ADAPTER = "./it2_en2or_lora_adapter"
 #   OR_TO_EN_ADAPTER = "./it2_or2en_lora_adapter"
 
-EN_TO_OR_ADAPTER = "your-username/it2-en2or-lora-adapter"  # UPDATE THIS
-OR_TO_EN_ADAPTER = "your-username/it2-or2en-lora-adapter"  # UPDATE THIS
+EN_TO_OR_ADAPTER = "Peeyush237/it2_en2or_lora_adapter"
+OR_TO_EN_ADAPTER = "Peeyush237/it2_or2en_lora_adapter"
 
 EN_INDIC_BASE = "ai4bharat/indictrans2-en-indic-1B"
 INDIC_EN_BASE = "ai4bharat/indictrans2-indic-en-1B"
