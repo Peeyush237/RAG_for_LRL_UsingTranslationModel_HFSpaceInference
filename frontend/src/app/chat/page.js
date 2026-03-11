@@ -92,8 +92,47 @@ export default function ChatPage() {
                     <hr className="rule-light" />
 
                     {/* Document Upload */}
-                    <FileUpload lang="en" onUpload={ingestDocuments} />
-                    <FileUpload lang="od" onUpload={ingestDocuments} />
+                    <div style={{ marginBottom: 'var(--s6)' }}>
+                        <FileUpload lang="en" onUpload={ingestDocuments} />
+                        <FileUpload lang="od" onUpload={ingestDocuments} />
+                    </div>
+
+                    <hr className="rule-light" />
+
+                    {/* Sample Documents for Testing */}
+                    <div>
+                        <p className="label" style={{ marginBottom: 'var(--s3)' }}>Sample Documents</p>
+                        <p style={{ fontSize: '0.8rem', color: 'var(--stone)', marginBottom: 'var(--s3)', lineHeight: 1.4 }}>
+                            Download these files and upload them above to test the system:
+                        </p>
+                        <a
+                            href="/docs/eng4.pdf"
+                            download
+                            className="btn"
+                            style={{
+                                display: 'block',
+                                textAlign: 'center',
+                                marginBottom: 'var(--s2)',
+                                fontSize: '0.8rem',
+                                padding: 'var(--s2)'
+                            }}
+                        >
+                            📄 Download English PDF
+                        </a>
+                        <a
+                            href="/docs/odia4.pdf"
+                            download
+                            className="btn"
+                            style={{
+                                display: 'block',
+                                textAlign: 'center',
+                                fontSize: '0.8rem',
+                                padding: 'var(--s2)'
+                            }}
+                        >
+                            📄 Download Odia PDF
+                        </a>
+                    </div>
                 </aside>
 
                 {/* ── Main ─────────────────────────── */}
@@ -118,7 +157,7 @@ export default function ChatPage() {
                             style={{ minHeight: '100px', marginBottom: 'var(--s3)' }}
                         />
 
-                        <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--s4)' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--s4)', marginBottom: 'var(--s4)' }}>
                             <button
                                 className="btn btn-filled"
                                 onClick={handleQuery}
@@ -138,6 +177,32 @@ export default function ChatPage() {
                                     {error}
                                 </span>
                             )}
+                        </div>
+
+                        {/* Example Query */}
+                        <div>
+                            <p className="label" style={{ display: 'inline-block', marginRight: 'var(--s3)' }}>Try Example:</p>
+                            <button
+                                onClick={() => {
+                                    setQuestion("ଅମିତ ଶାହ ପାରାଦୀପରେ କ'ଣ ଲୋକାର୍ପଣ କରିଥିଲେ?");
+                                    // Optional: Timeout to let state update before querying automatically, 
+                                    // but usually better to just prepopulate and let them read it.
+                                }}
+                                style={{
+                                    background: 'none',
+                                    border: '1px dashed var(--sand)',
+                                    borderRadius: '4px',
+                                    padding: 'var(--s2) var(--s3)',
+                                    fontSize: '0.85rem',
+                                    color: 'var(--stone)',
+                                    cursor: 'pointer',
+                                    transition: 'all 0.2s ease'
+                                }}
+                                onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'var(--gold)'; e.currentTarget.style.color = 'var(--gold)' }}
+                                onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'var(--sand)'; e.currentTarget.style.color = 'var(--stone)' }}
+                            >
+                                ଅମିତ ଶାହ ପାରାଦୀପରେ କ'ଣ ଲୋକାର୍ପଣ କରିଥିଲେ?
+                            </button>
                         </div>
 
                         {loading && (
