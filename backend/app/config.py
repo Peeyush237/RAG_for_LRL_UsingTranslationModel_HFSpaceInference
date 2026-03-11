@@ -43,7 +43,7 @@ class Settings(BaseSettings):
     ENTITY_DICT_PATH: str = ""
 
     # ── CORS ──────────────────────────────────────────────────────────────────
-    CORS_ORIGINS: list[str] = ["http://localhost:3000", "https://*.vercel.app"]
+    CORS_ORIGINS: list[str] = ["*"]  # Allow all origins (wildcard patterns don't work in FastAPI)
 
     class Config:
         env_file = ".env"
