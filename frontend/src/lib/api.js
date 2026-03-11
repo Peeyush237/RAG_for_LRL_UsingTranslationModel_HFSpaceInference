@@ -1,14 +1,16 @@
 /**
  * api.js — Frontend API client for the LinguaBridge backend.
+ *
+ * All requests go through Next.js API route proxies (/api/*),
+ * which forward to the Render backend server-side.
+ * This eliminates CORS issues entirely.
  */
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
 
 /**
  * Check backend health status.
  */
 export async function getHealth() {
-    const res = await fetch(`${API_URL}/api/health`);
+    const res = await fetch('/api/health');
     if (!res.ok) throw new Error('Backend unreachable');
     return res.json();
 }
@@ -17,7 +19,7 @@ export async function getHealth() {
  * Run RAG query pipeline.
  */
 export async function queryPipeline({ question, pipelineMode = 'both', topK = 5 }) {
-    const res = await fetch(`${API_URL}/api/query`, {
+    const res = await fetch('/api/query', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -43,7 +45,7 @@ export async function ingestDocuments(files, lang = 'en') {
     }
     formData.append('lang', lang);
 
-    const res = await fetch(`${API_URL}/api/ingest`, {
+    const res = await fetch('/api/ingest', {
         method: 'POST',
         body: formData,
     });
@@ -58,7 +60,7 @@ export async function ingestDocuments(files, lang = 'en') {
  * Translate text.
  */
 export async function translateText(text, sourceLang, targetLang) {
-    const res = await fetch(`${API_URL}/api/translate`, {
+    const res = await fetch('/api/translate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
