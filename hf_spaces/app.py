@@ -161,7 +161,7 @@ with gr.Blocks(title="LinguaBridge Translation API") as demo:
         )
         or2en_output = gr.Textbox(label="English Translation", lines=4)
         or2en_btn = gr.Button("Translate", variant="primary")
-        or2en_btn.click(odia_to_english, inputs=or2en_input, outputs=or2en_output)
+        or2en_btn.click(odia_to_english, inputs=or2en_input, outputs=or2en_output, api_name="odia_to_english")
 
     with gr.Tab("English → Odia"):
         en2or_input = gr.Textbox(
@@ -171,7 +171,7 @@ with gr.Blocks(title="LinguaBridge Translation API") as demo:
         )
         en2or_output = gr.Textbox(label="Odia Translation", lines=4)
         en2or_btn = gr.Button("Translate", variant="primary")
-        en2or_btn.click(english_to_odia, inputs=en2or_input, outputs=en2or_output)
+        en2or_btn.click(english_to_odia, inputs=en2or_input, outputs=en2or_output, api_name="english_to_odia")
 
     gr.Markdown("""
     ---
