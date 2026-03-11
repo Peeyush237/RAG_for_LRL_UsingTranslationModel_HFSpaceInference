@@ -106,8 +106,3 @@ Navigate to `http://localhost:3000` to interact with the application locally.
 
 ---
 
-<p align="center">
-  Built as part of IIIT Nagpur · Semester VI CSA <br/>
-  <b>Team:</b> Peeyush Mishra, Divyal Surse, Sandesh Charhate <br/>
-  <b>Guide:</b> Mr. Amol Bhopale
-</p>
