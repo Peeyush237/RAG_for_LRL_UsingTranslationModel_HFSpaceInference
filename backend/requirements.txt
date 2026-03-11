@@ -5,9 +5,10 @@
 # with CPU-only build to save ~500MB
 
 # FastAPI
-fastapi>=0.109.0
-uvicorn[standard]>=0.27.0
-pydantic>=2.5.0
+fastapi>=0.111.0
+uvicorn>=0.30.0
+pydantic>=2.7.0
+gradio_client
 pydantic-settings>=2.1.0
 python-multipart>=0.0.6
 

@@ -4,16 +4,34 @@ translation.py
 Client for calling the HuggingFace Spaces translation API.
 
 The IndicTrans2 model runs on HuggingFace Spaces (free T4 GPU).
-This service makes HTTP calls to the Gradio API endpoint.
+This service uses the official `gradio_client` block to handle SSE
+and API negotiation seamlessly, avoiding direct httpx requests.
 """
 
-import httpx
 import logging
+import asyncio
+from gradio_client import Client
 
 logger = logging.getLogger(__name__)
 
-# Timeout for HF Spaces calls (cold start can take 30-60s)
-HF_TIMEOUT = 120.0
+# Cache the client to avoid re-initializing it for every request,
+# which requires fetching the API schema each time.
+_client_instance = None
+
+
+def get_client(hf_spaces_url: str) -> Client:
+    global _client_instance
+    if _client_instance is None:
+        logger.info(f"Initializing Gradio Client for {hf_spaces_url}")
+        _client_instance = Client(hf_spaces_url)
+    return _client_instance
+
+
+def _do_predict_sync(text: str, api_name: str, hf_spaces_url: str) -> str:
+    """Synchronous translation call to be run in a thread."""
+    client = get_client(hf_spaces_url)
+    result = client.predict(text, api_name=api_name)
+    return str(result)
 
 
 async def _call_hf_spaces(
@@ -22,7 +40,8 @@ async def _call_hf_spaces(
     hf_spaces_url: str,
 ) -> str:
     """
-    Call a Gradio API endpoint on HuggingFace Spaces.
+    Call a Gradio API endpoint on HuggingFace Spaces using asyncio.to_thread
+    to prevent the synchronous client from blocking the FastAPI event loop.
 
     Args:
         text:           Input text to translate
@@ -32,60 +51,18 @@ async def _call_hf_spaces(
     Returns:
         Translated text string
     """
-    url = f"{hf_spaces_url.rstrip('/')}/api/predict"
-
-    payload = {
-        "fn_index": 0 if api_name == "/odia_to_english" else 1,
-        "data": [text],
-    }
-
-    # HF Spaces with Gradio 6.x requires /gradio_api/ prefix
-    gradio_url = f"{hf_spaces_url.rstrip('/')}/gradio_api/call{api_name}"
-
-    async with httpx.AsyncClient(timeout=HF_TIMEOUT) as client:
-        try:
-            # Step 1: Submit the request
-            response = await client.post(
-                gradio_url,
-                json={"data": [text]},
-            )
-            response.raise_for_status()
-            event_id = response.json().get("event_id")
-
-            if event_id:
-                # Step 2: Get the result using SSE
-                result_url = f"{hf_spaces_url.rstrip('/')}/gradio_api/call{api_name}/{event_id}"
-                result_response = await client.get(result_url)
-                result_response.raise_for_status()
-
-                # Parse SSE response
-                for line in result_response.text.split("\n"):
-                    if line.startswith("data:"):
-                        import json
-                        data = json.loads(line[5:].strip())
-                        if isinstance(data, list) and len(data) > 0:
-                            return data[0]
-                        return str(data)
-
-            # Fallback: direct response
-            result = response.json()
-            if "data" in result and len(result["data"]) > 0:
-                return result["data"][0]
-
-            return str(result)
-
-        except httpx.HTTPStatusError as e:
-            logger.error(f"HF Spaces API error: {e.response.status_code} - {e.response.text}")
-            raise RuntimeError(f"Translation API error: {e.response.status_code}")
-        except httpx.TimeoutException:
-            logger.error("HF Spaces API timeout — the Space may be cold-starting")
-            raise RuntimeError(
-                "Translation API timeout. The HuggingFace Space may be starting up. "
-                "Please try again in 30-60 seconds."
-            )
-        except Exception as e:
-            logger.error(f"HF Spaces API error: {e}")
-            raise RuntimeError(f"Translation API error: {str(e)}")
+    try:
+        # Run the synchronous gradio_client in a worker thread
+        result = await asyncio.to_thread(
+            _do_predict_sync, 
+            text, 
+            api_name, 
+            hf_spaces_url
+        )
+        return result
+    except Exception as e:
+        logger.error(f"HF Spaces API error using gradio_client: {e}")
+        raise RuntimeError(f"Translation API error: {str(e)}")
 
 
 async def translate_odia_to_english(text: str, hf_spaces_url: str) -> str:
