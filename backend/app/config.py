@@ -15,10 +15,12 @@ class Settings(BaseSettings):
     # ── API Keys ──────────────────────────────────────────────────────────────
     GROQ_API_KEY: str = ""
     HF_SPACES_URL: str = ""  # URL of the HuggingFace Spaces translation API
+    HF_TOKEN: str = ""       # HuggingFace token for authenticated model downloads
 
     # ── Models ────────────────────────────────────────────────────────────────
-    EMBEDDING_MODEL: str = "BAAI/bge-base-en-v1.5"
+    EMBEDDING_MODEL: str = "BAAI/bge-small-en-v1.5"  # ~130MB, fits in 512MB free tier
     RERANKER_MODEL: str = "cross-encoder/ms-marco-MiniLM-L-6-v2"
+    ENABLE_RERANKER: bool = False  # Disable by default for free tier (saves ~80MB)
     GROQ_MODEL: str = "llama-3.3-70b-versatile"
 
     # ── RAG Settings ──────────────────────────────────────────────────────────

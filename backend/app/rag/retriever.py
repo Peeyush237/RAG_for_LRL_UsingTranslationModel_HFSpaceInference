@@ -9,7 +9,7 @@ Unified retriever that orchestrates the full advanced RAG pipeline:
 """
 
 from dataclasses import dataclass
-from sentence_transformers import SentenceTransformer, CrossEncoder
+from sentence_transformers import SentenceTransformer
 import faiss
 
 from app.rag.embedder import dense_retrieve
@@ -39,7 +39,7 @@ class Retriever:
     def __init__(
         self,
         embedder: SentenceTransformer,
-        reranker: CrossEncoder,
+        reranker,  # CrossEncoder or None
         faiss_index: faiss.IndexFlatIP,
         bm25_index: BM25Index,
         chunk_texts: list[str],
@@ -108,13 +108,17 @@ class Retriever:
                     rrf_score,
                 ))
 
-        # Step 5: CrossEncoder reranking
-        reranked = rerank(
-            query=query,
-            candidates=candidates,
-            reranker=self.reranker,
-            top_k=top_k,
-        )
+        # Step 5: Rerank if CrossEncoder is available, otherwise use RRF scores
+        if self.reranker is not None:
+            reranked = rerank(
+                query=query,
+                candidates=candidates,
+                reranker=self.reranker,
+                top_k=top_k,
+            )
+        else:
+            # Use RRF fusion scores directly
+            reranked = candidates[:top_k]
 
         # Step 6: Build ChunkResult objects
         results = []

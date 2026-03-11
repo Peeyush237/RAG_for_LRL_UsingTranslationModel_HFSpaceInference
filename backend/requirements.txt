@@ -1,6 +1,8 @@
 # ─────────────────────────────────────────────
 # LinguaBridge Backend — Dependencies
 # ─────────────────────────────────────────────
+# NOTE: torch is installed separately in Dockerfile
+# with CPU-only build to save ~500MB
 
 # FastAPI
 fastapi>=0.109.0
@@ -9,8 +11,7 @@ pydantic>=2.5.0
 pydantic-settings>=2.1.0
 python-multipart>=0.0.6
 
-# ML / Embeddings
-torch>=2.1.0
+# ML / Embeddings (torch installed separately — see Dockerfile)
 sentence-transformers>=2.7.0
 numpy<2
 
@@ -26,5 +27,3 @@ pdfplumber>=0.11.0
 
 # HTTP client (for HF Spaces calls)
 httpx>=0.27.0
-
-# CORS support is built into FastAPI

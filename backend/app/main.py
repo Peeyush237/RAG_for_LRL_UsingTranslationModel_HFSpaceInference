@@ -36,6 +36,12 @@ async def lifespan(app: FastAPI):
     """Load models and indexes on startup."""
     logger.info("🚀 Starting LinguaBridge backend...")
 
+    # Set HF token for authenticated downloads (avoids rate limits)
+    if settings.HF_TOKEN:
+        os.environ["HF_TOKEN"] = settings.HF_TOKEN
+        os.environ["HUGGING_FACE_HUB_TOKEN"] = settings.HF_TOKEN
+        logger.info("✅ HuggingFace token configured")
+
     # Ensure data directory exists
     os.makedirs(settings.DATA_DIR, exist_ok=True)
 
@@ -44,10 +50,14 @@ async def lifespan(app: FastAPI):
     embedder = load_embedder(settings.EMBEDDING_MODEL)
     app_state["embedder"] = embedder
 
-    # Load reranker model
-    logger.info(f"Loading reranker model: {settings.RERANKER_MODEL}")
-    reranker = load_reranker(settings.RERANKER_MODEL)
-    app_state["reranker"] = reranker
+    # Load reranker model (optional — disabled on free tier to save memory)
+    reranker = None
+    if settings.ENABLE_RERANKER:
+        logger.info(f"Loading reranker model: {settings.RERANKER_MODEL}")
+        reranker = load_reranker(settings.RERANKER_MODEL)
+        app_state["reranker"] = reranker
+    else:
+        logger.info("ℹ️ Reranker disabled (ENABLE_RERANKER=false)")
 
     # Try to load saved English index
     en_faiss = load_faiss_index(settings.EN_FAISS_PATH)

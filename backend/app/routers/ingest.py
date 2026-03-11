@@ -61,9 +61,9 @@ async def ingest_documents(
     chunk_texts = [c.text for c in all_chunks]
     chunk_sources = [c.source for c in all_chunks]
 
-    # Load models
-    embedder = load_embedder(settings.EMBEDDING_MODEL)
-    reranker = load_reranker(settings.RERANKER_MODEL)
+    # Use pre-loaded models from app state
+    embedder = app_state.get("embedder") or load_embedder(settings.EMBEDDING_MODEL)
+    reranker = app_state.get("reranker")  # May be None if ENABLE_RERANKER=False
 
     # Build FAISS index
     faiss_index = build_dense_index(chunk_texts, embedder)
