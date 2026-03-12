@@ -57,7 +57,7 @@ export default function Navbar() {
                         Query
                     </Link>
                     <a
-                        href="https://github.com/Peeyush237/RAG_for_LowResourceLanguage_using_FineTuned_translationModel"
+                        href="https://github.com/Peeyush237/RAG_for_LRL_UsingTranslationModel_HFSpaceInference"
                         target="_blank"
                         rel="noopener noreferrer"
                         style={{
