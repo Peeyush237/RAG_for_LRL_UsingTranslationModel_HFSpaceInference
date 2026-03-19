@@ -25,11 +25,11 @@ LinguaBridge is a specialized, open-source Retrieval-Augmented Generation (RAG) 
 
 ### Query Interface
 
-![LinguaBridge Query Interface](C:\Users\LENOVO\OneDrive\Desktop\LinguaBridge\image copy.png)
+![LinguaBridge Query Interface](docs/images/query-interface.png)
 
 ### LLM Evaluation Result
 
-![LinguaBridge LLM Evaluation](C:\Users\LENOVO\OneDrive\Desktop\LinguaBridge\image.png)
+![LinguaBridge LLM Evaluation](docs/images/llm-evaluation.png)
 
 ---
 
