@@ -143,6 +143,29 @@ export default function ChatPage() {
                             Query
                         </h2>
 
+                        <div
+                            style={{
+                                marginBottom: 'var(--s4)',
+                                padding: 'var(--s3) var(--s4)',
+                                background: 'var(--cream)',
+                                borderLeft: '2px solid var(--gold)',
+                                fontSize: '0.85rem',
+                                color: 'var(--stone)',
+                                lineHeight: 1.5,
+                            }}
+                        >
+                            Note: If you see a Translation API error, it usually means the HuggingFace Space is sleeping after long inactivity. You can still view the working demo details in the{' '}
+                            <a
+                                href="https://github.com/Peeyush237/RAG_for_LRL_UsingTranslationModel_HFSpaceInference#readme"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                style={{ color: 'var(--near-black)', textDecoration: 'underline' }}
+                            >
+                                GitHub README
+                            </a>
+                            .
+                        </div>
+
                         <textarea
                             className="textarea"
                             placeholder="ଏଠାରେ ଆପଣଙ୍କ ପ୍ରଶ୍ନ ଲେଖନ୍ତୁ..."

@@ -21,6 +21,16 @@ LinguaBridge is a specialized, open-source Retrieval-Augmented Generation (RAG) 
 
 > **Test it out:** We've provided an English PDF and an Odia PDF directly on the application's sidebar. Download them, upload them back into the system, and try the example query provided in the UI!
 
+## 📸 UI Screenshots
+
+### Query Interface
+
+![LinguaBridge Query Interface](C:\Users\LENOVO\OneDrive\Desktop\LinguaBridge\image copy.png)
+
+### LLM Evaluation Result
+
+![LinguaBridge LLM Evaluation](C:\Users\LENOVO\OneDrive\Desktop\LinguaBridge\image.png)
+
 ---
 
 ## 🏛️ System Architecture
